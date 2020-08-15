@@ -1,0 +1,43 @@
+<div class="example-form">
+
+    <h3 class="heading"> {{ data.isUpdated? 'Update': 'Add ' }} Task</h3>
+
+  <form [formGroup] = "addTaskForm">
+  <mat-form-field class="example-full-width">
+    <mat-label>Title</mat-label>
+    <input matInput formControlName = "title">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Description</mat-label>
+    <textarea rows="3" matInput formControlName  = "description"></textarea>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Select periority</mat-label>
+    <mat-select formControlName = "priority">
+      <mat-option *ngFor="let periority of priorities" [value]="periority">
+        {{periority}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Task Date</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName = "date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <div class="btn">
+    <button mat-raised-button mat-dialog-close color="primary"> Cancel </button>
+    <button [disabled] = "addTaskForm.invalid || isShowSpinner" (click) = "onAddTask()" mat-raised-button color="primary">
+       {{ data.isUpdated? 'Update': 'Save' }}
+    </button>
+  </div>
+
+</form>
+
+</div>

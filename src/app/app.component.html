@@ -1,0 +1,68 @@
+<app-nav-bar (addTask)="addAndUpdateTask()"></app-nav-bar>
+
+<h1 [ngStyle]="{ 'color': ( completedTaskList.length  / (taskList.length + inProgesstaskList.length + completedTaskList.length) * 100 ) < 33 ?' red' : 'green' }"
+  class="right">
+  {{ completedTaskList.length > 0 ? ( completedTaskList.length  / (taskList.length + inProgesstaskList.length + completedTaskList.length) | percent): 0 | percent }}
+</h1>
+
+<div class="container" cdkDropListGroup>
+
+  <div class="example-container">
+    <h2 class="center">Pending</h2>
+
+    <div cdkDropList [cdkDropListData]="taskList" class="example-list" (cdkDropListDropped)="drop($event)">
+      <div class="example-box pending-bg" *ngFor="let task of taskList" cdkDrag>
+        <div>
+          <mat-icon>
+            {{ task.priority === 'High'? 'arrow_upward': task.priority === 'Low'? 'arrow_downward': 'remove' }}
+          </mat-icon>
+         <span class="white-text"> {{ task.title }} </span>
+        </div>
+        <div class="cursor">
+          <mat-icon (click)="addAndUpdateTask(task.id)"> edit </mat-icon>
+          <mat-icon (click)="removeTask(task.id)"> delete </mat-icon>
+        </div>
+      </div>
+      <div class="info-center" *ngIf="taskList.length == 0">
+        Add a new task, if no pending tasks
+        <p style="padding: 6px;" ><button (click) = "addAndUpdateTask()" mat-raised-button color="primary">Add New Task</button> </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="example-container">
+    <h2 class="center">In progress</h2>
+
+    <div cdkDropList [cdkDropListData]="inProgesstaskList" class="example-list" (cdkDropListDropped)="drop($event)">
+      <div class="example-box inprogress-bg" *ngFor="let task of inProgesstaskList" cdkDrag>
+        <div>
+          <mat-icon>
+            {{ task.priority === 'High'? 'arrow_upward': task.priority === 'Low'? 'arrow_downward': 'remove' }}
+          </mat-icon>
+          <span class="white-text"> {{ task.title }} </span>
+        </div>
+        <div class="cursor">
+          <mat-icon (click)="removeInprogessTask(task.id)"> delete </mat-icon>
+        </div>
+      </div>
+      <div class="info-center" *ngIf="inProgesstaskList.length == 0"> Drop tasks on me, if task is in progress. </div>
+    </div>
+  </div>
+
+  <div class="example-container">
+    <h2 class="center"> Completed </h2>
+
+    <div cdkDropList [cdkDropListData]="completedTaskList" class="example-list" (cdkDropListDropped)="drop($event)">
+      <div class="example-box done-bg" *ngFor="let task of completedTaskList" cdkDrag>
+        <div>
+          <mat-icon>
+            {{ task.priority === 'High'? 'arrow_upward': task.priority === 'Low'? 'arrow_downward': 'remove' }}
+          </mat-icon>
+          <span class="white-text"> {{ task.title }} </span>
+        </div>
+      </div>
+      <div  class="info-center" *ngIf="completedTaskList.length == 0"> Drop tasks on me, if task get completed. </div>
+    </div>
+  </div>
+
+</div>
